@@ -6,6 +6,9 @@ HOST = "127.0.0.1"
 PORT = 8443
 
 context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+# context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_1)
+context.minimum_version = ssl.TLSVersion.TLSv1_3 # enforce minimum tls version
+context.load_cert_chain(certfile="./client.crt", keyfile="./client.key") # cert and key for mutual authentication
 context.load_verify_locations("server.crt")
 
 with socket.create_connection((HOST, PORT)) as sock:
